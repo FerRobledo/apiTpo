@@ -12,15 +12,26 @@ class peliculasController
         $this->view = new APIView();
     }
 
-    function getPeliculas($params = []) 
+    function getPeliculas($params = null) 
     {
         $peliculas = $this->model->getAll();
         return $this->view->response($peliculas, 200);
     }
 
+    function getPelicula($params = null)
+    {
+        $id =  $params[':ID'];
+        $task = $this->model->getPelicula($id);
+
+        if($task)
+            $this->view->response($task, 200);
+        else
+            $this->view->response("La pelicula $id no existe", 404);
+    }
+
     function crearPelicula()
     {
-        
+
     }
   
 }
