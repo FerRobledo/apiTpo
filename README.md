@@ -1,1 +1,1 @@
-# apiTpo
+El endpoint de la API es: http://localhost/tpo_entrega3/api/peliculas
