@@ -37,7 +37,7 @@ class Route {
         $controller = $this->controller;  
         $method = $this->method;
         $params = $this->params;
-       
+    
         (new $controller())->$method($params);
     }
 }
