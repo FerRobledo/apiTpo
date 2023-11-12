@@ -8,11 +8,9 @@ $router = new Router();
 
 $router->addRoute('peliculas', 'GET', 'peliculasController', 'getPeliculas');
 $router->addRoute('peliculas/:ID', 'GET', 'peliculasController', 'getPelicula');
-
+$router->addRoute('peliculas/:TYPE/:AS', 'GET', 'peliculasController', 'getPeliculasOrdenadas');
 $router->addRoute('peliculas', 'POST', 'peliculasController', 'postPelicula');
-
 $router->addRoute('peliculas/:ID', 'DELETE', 'peliculasController', 'deletePelicula');
-
 $router->addRoute('peliculas/:ID', 'PUT', 'peliculasController', 'updatePelicula');
 
 

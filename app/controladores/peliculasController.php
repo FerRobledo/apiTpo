@@ -29,6 +29,24 @@ class peliculasController
             $this->view->response("La pelicula $id no existe", 404);
     }
 
+    function getPeliculasOrdenadas($params = null)
+    {
+        $tipo = $params[':TYPE'];
+        $orden = $params[':AS'];
+        if($orden === 'ascendente'){
+            $peliculas = $this->model->getPeliculasASC($tipo);
+        } else if($orden === 'descendente'){
+            $peliculas = $this->model->getPeliculasDESC($tipo);
+        } else
+            $this->view->response("El orden $orden no existe. Tiene que ser 'ascendente' o 'descendente'", 404);
+
+        if($peliculas){
+            $this->view->response($peliculas, 200);
+        } else {
+            $this->view->response("El tipo $tipo no es valido, solo se permite ordenar por 'nombre' y 'presupuesto'.", 404);
+        }
+    }
+
     function postPelicula($params = [])
     {
         $inputJSON = file_get_contents('php://input');
