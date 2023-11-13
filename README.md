@@ -3,6 +3,7 @@ Web2 Trabajo Especial parte 3.
 Integrantes del grupo:
 
 Wagner Calvo, Juan Sebastian (aguswagnercalvo@hotmail.com)
+
 Robledo, Fermin (fermin4robledo@gmail.com)
 
 Descripcion y funcionamiento de la API:
@@ -14,7 +15,9 @@ Los endpoints que estan implementados en la API son
 **(GET)**
 
 http://localhost/apitpo-main/api/peliculas -> Muestra el listado de todas las peliculas mediante un llamado SQL.
+
 http://localhost/apitpo-main/api/peliculas/:ID -> Muestra la pelicula con el ID enviado a trabes de la URL mediante un llamado SQL. Si la pelicula no existe se informa.
+
 http://localhost/apitpo-main/api/peliculas/:TYPE/:AS -> Muestra todas las peliculas ordenadas alfabeticamente segun el nombre o ordenadas de mayor a menor segun el presupuesto destinado a la misma. Esta funcion solo se ejecuta si el atributo 'TYPE' es "nombre" o "presupuesto" y el atributo 'AS' es "ascendente" o "desdendente", con cualquier otro valor en estos atributos se informa el error. 
 
 **(POST)**
