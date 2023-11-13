@@ -1,23 +1,42 @@
 <?php
+require_once './app/controladores/apiController.php';
 require_once './app/modelos/PeliculasModel.php';
-require_once './app/vistas/APIView.php';
 
-class peliculasController
+class peliculasController extends ApiController
 {
     private $model;
-    private $view;
     public function __construct()
     {
+        parent::__construct();
         $this->model = new PeliculasModel();
-        $this->view = new APIView();
     }
 
+    // OBTENER LISTA COMPLETA DE PELICULAS (ordenadas o no)
     function getPeliculas($params = null)
     {
-        $peliculas = $this->model->getAll();
-        return $this->view->response($peliculas, 200);
+        $type = $params [':TYPE'] ?? null;
+        $orden = $params [':AS'] ?? null;
+
+        if(empty($type) && empty($orden)){
+            $peliculas = $this->model->getAll();
+            return $this->view->response($peliculas, 200);
+        }
+        
+        if($orden === 'ascendente'){
+            $peliculas = $this->model->getPeliculasASC($type);
+        } else if($orden === 'descendente'){
+            $peliculas = $this->model->getPeliculasDESC($type);
+        } else
+            return $this->view->response("El orden $orden no existe. Tiene que ser 'ascendente' o 'descendente'", 404);
+
+        if($peliculas){
+            $this->view->response($peliculas, 200);
+        } else {
+            $this->view->response("El tipo $type no es valido, solo se permite ordenar por 'nombre' y 'presupuesto'.", 404);
+        }
     }
 
+    // OBTENER PELICULA MEDIANTE ID
     function getPelicula($params = null)
     {
         $id =  $params[':ID'];
@@ -29,46 +48,29 @@ class peliculasController
             $this->view->response("La pelicula $id no existe", 404);
     }
 
-    function getPeliculasOrdenadas($params = null)
-    {
-        $tipo = $params[':TYPE'];
-        $orden = $params[':AS'];
-        if($orden === 'ascendente'){
-            $peliculas = $this->model->getPeliculasASC($tipo);
-        } else if($orden === 'descendente'){
-            $peliculas = $this->model->getPeliculasDESC($tipo);
-        } else
-            $this->view->response("El orden $orden no existe. Tiene que ser 'ascendente' o 'descendente'", 404);
-
-        if($peliculas){
-            $this->view->response($peliculas, 200);
-        } else {
-            $this->view->response("El tipo $tipo no es valido, solo se permite ordenar por 'nombre' y 'presupuesto'.", 404);
-        }
-    }
-
+    // ALTA
     function postPelicula($params = [])
     {
-        $inputJSON = file_get_contents('php://input');
-        $input = json_decode($inputJSON, TRUE);
-        if ($input) {
-            $nombre = $input->nombre;
-            $genero = $input->genero;
-            $fecha = $input->fecha;
-            $premios = $input->premios;
-            $duracion = $input->duracion;
-            $clasificacion = $input->clasificacion;
-            $presupuesto = $input->presupuesto;
-            $estudio = $input->estudio;
-            $director_id = $input->director;
-
-            $id = $this->model->insertarPelicula($nombre, $genero, $fecha, $premios, $duracion, $clasificacion, $presupuesto, $estudio, $director_id);
-            $this->view->response("La pelicula creada correctamente con el id=" . $id, 201);
-        } else {
+        $body = $this->getData();
+        if($body){
+            $nombre = $body->nombre;
+            $genero = $body->genero;
+            $fecha = $body->fecha;
+            $premios = $body->premios;
+            $duracion = $body->duracion;
+            $clasificacion = $body->clasificacion;
+            $presupuesto = $body->presupuesto;
+            $estudio = $body->estudio;
+            $director_id = $body->director;
+            $this->model->insertarPelicula($nombre, $genero, $fecha, $premios, $duracion, $clasificacion, $presupuesto, $estudio, $director_id);
+            $this->view->response("La pelicula creada correctamente", 201);
+        } else{
             $this->view->response("Error al procesar la solicitud para crear la pelicula.", 400);
         }
     }
+    
 
+    // BAJA
     function deletePelicula($params = [])
     {
         $id = $params[':ID'];
@@ -82,6 +84,8 @@ class peliculasController
         }
     }
 
+
+    // MODIFICACION
     function updatePelicula($params = [])
     {
         $id = $params[':ID'];

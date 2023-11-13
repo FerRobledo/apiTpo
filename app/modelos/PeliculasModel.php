@@ -1,9 +1,11 @@
 <?php
 require_once 'config.php';
 require_once 'app/modelos/Model.php';
+
 class PeliculasModel extends Model
 {
     
+    // OBTENER TODAS LAS PELICULAS
     public function getAll($params = null)
     {
         $sql = "SELECT * FROM peliculas WHERE 1";
@@ -14,6 +16,8 @@ class PeliculasModel extends Model
         return $peliculas;
     }
 
+
+    // OBTENER PELICULA MEDIANTE ID
     public function getPelicula($id)
     {
         if (!empty($id)) {
@@ -25,6 +29,7 @@ class PeliculasModel extends Model
         return null;
     }
 
+    // OBTENER PELICULAS ORDENADAS DE FORMA ASCENDENTE
     public function getPeliculasASC($tipo){
         $columnasValidas = ['nombre', 'presupuesto'];
 
@@ -37,6 +42,7 @@ class PeliculasModel extends Model
         return null;
     }
 
+    // OBTENER PELICULAS ORDENADAS DE FORMA DESCENDENTE
     public function getPeliculasDESC($tipo){
         $columnasValidas = ['nombre', 'presupuesto'];
 
@@ -49,6 +55,7 @@ class PeliculasModel extends Model
         return null;
     }
 
+    // ALTA
     public function insertarPelicula($nombre, $genero, $fecha, $premios, $duracion, $clasificacion, $presupuesto, $estudio, $director_id)
     {
         $sql = "INSERT INTO peliculas (nombre, genero, `fecha de lanzamiento`, premios, `duracion en min`, `clasificacion por edades`, presupuesto, `estudio de produccion`, director_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -56,21 +63,19 @@ class PeliculasModel extends Model
         $query->execute([$nombre, $genero, $fecha, $premios, $duracion, $clasificacion, $presupuesto, $estudio, $director_id]);
     }
 
+    // BAJA
     public function borrarPelicula($id)
     {
         $sql = "DELETE FROM peliculas WHERE pelicula_id = ?";
         $query = $this->db->prepare($sql);
         $query->execute([$id]);
     }
-
+    
+    // MODIFICACION
     public function editarPelicula($id, $nombre, $genero, $fecha, $premios, $duracion, $clasificacion, $presupuesto, $estudio, $director_id)
     {
         $sql = "UPDATE peliculas SET nombre = ?, genero = ?, `fecha de lanzamiento` = ?, premios = ?, `duracion en min` = ?, `clasificacion por edades` = ?, presupuesto = ?, `estudio de produccion` = ?, director_id = ? WHERE pelicula_id = ?";
         $query = $this->db->prepare($sql);
         $query->execute([$nombre, $genero, $fecha, $premios, $duracion, $clasificacion, $presupuesto, $estudio, $director_id, $id]);
-    }
-
-    public function ordenarPresupuesto($a, $b){
-        return $a['presupuesto'] - $b['presupuesto'];    
     }
 }
