@@ -25,9 +25,19 @@ http://localhost/apitpo-main/api/peliculas/:TYPE/:AS -> Muestra todas las pelicu
 http://localhost/apitpo-main/api/peliculas -> Agrega una nueva pelicula a la base de datos con los datos proporcionados en el body.
 
 La forma en la que se proporcionan los datos es la siguiente:
-
-{"nombre": "Nueva Pelicula", "genero": "Thriller,Terror,Crimen,Gore", "fecha": "2023-09-28", "premios": "Premios que gano la Pelicula", "duracion": 215, "clasificacion": "R", "presupuesto": 13000000, "estudio": "Estudio de la pelicula", "director": 1}
-
+```json
+{
+"nombre": "Nueva Pelicula",
+"genero": "Thriller,Terror,Crimen,Gore",
+"fecha": "2023-09-28",
+"premios": "Premios que gano la Pelicula",
+"duracion": 215,
+"clasificacion": "R",
+"presupuesto": 13000000,
+"estudio": "Estudio de la pelicula",
+"director": 1 //id del director con el que se asocia
+}
+```
 **(DELETE)**
 
 http://localhost/apitpo-main/api/peliculas/:ID -> Elimina la pelicula de la base de datos con el ID enviado a traves de la URL.
@@ -37,5 +47,16 @@ http://localhost/apitpo-main/api/peliculas/:ID -> Elimina la pelicula de la base
 http://localhost/apitpo-main/api/peliculas/:ID -> Modifica los datos de la pelicula con el ID enviado a traves de la URL, los datos son proporcionados en el body.
 
 La forma en la que se proporcionan los datos es la siguiente:
-
-{"nombre": "Nueva Pelicula", "genero": "Thriller,Terror,Crimen,Gore", "fecha": "2023-09-28", "premios": "Premios que gano la Pelicula", "duracion": 215, "clasificacion": "R", "presupuesto": 13000000, "estudio": "Estudio de la pelicula", "director": 1}
+```json
+{
+"nombre": "Nueva Pelicula",
+"genero": "Thriller,Terror,Crimen,Gore",
+"fecha": "2023-09-28",
+"premios": "Premios que gano la Pelicula",
+"duracion": 215,
+"clasificacion": "R",
+"presupuesto": 13000000,
+"estudio": "Estudio de la pelicula",
+"director": 1
+}
+```
